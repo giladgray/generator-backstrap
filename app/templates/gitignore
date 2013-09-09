@@ -1,0 +1,7 @@
+.tmp
+temp
+dist
+node_modules/
+.sass-cache/
+bower_components/
+parse/public
