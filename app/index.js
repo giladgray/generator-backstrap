@@ -50,7 +50,7 @@ BackstrapGenerator.prototype.app = function app() {
   this.copy('app/favicon.ico', 'app/favicon.ico')
   this.copy('app/robots.txt', 'app/robots.txt')
   this.template('app/_index.html', 'app/index.html')
-  this.template('app/404.html', 'app/404.html')
+  this.template('app/_404.html', 'app/404.html')
 
   this.mkdir('app/images');
   this.mkdir('app/styles');

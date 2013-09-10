@@ -12,6 +12,6 @@
     "layoutmanager-amd": "latest"
   },
   "devDependencies": {
-    "bootstrap-sass": "~2.3.2"
+    "bootstrap-sass": "~3.0.0"
   }
 }
