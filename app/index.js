@@ -64,7 +64,6 @@ BackstrapGenerator.prototype.scripts = function scripts() {
   this.copy('app/scripts/plugins.coffee', 'app/scripts/plugins.coffee');
   this.copy('app/scripts/router.coffee',  'app/scripts/router.coffee');
 
-  this.mkdir('app/scripts/lib');
   this.mkdir('app/scripts/models');
 
   this.mkdir('app/scripts/views');

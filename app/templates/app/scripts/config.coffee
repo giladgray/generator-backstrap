@@ -3,10 +3,10 @@ require.config
   # Initialize the application with the main application file.
   deps: ['main']
 
+  # Libraries
   paths:
-    # Libraries
     backbone: '../bower_components/backbone-amd/backbone'
-    bootstrap: '../scripts/lib/bootstrap'
+    bootstrap: '../bower_components/bootstrap-sass/js'
     handlebars: '../bower_components/handlebars/handlebars.runtime'
     jquery: '../bower_components/jquery/jquery'
     layoutmanager: '../bower_components/layoutmanager-amd/backbone.layoutmanager'
