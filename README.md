@@ -1,47 +1,40 @@
 # generator-backstrap [![Build Status](https://secure.travis-ci.org/giladgray/generator-backstrap.png?branch=master)](https://travis-ci.org/giladgray/generator-backstrap)
 
-A generator for [Yeoman](http://yeoman.io).
+A [Yeoman](http://yeoman.io) generator for kickass [Backbone](http://backbonejs.org/), [Bootstrap](http://getbootstrap.com/), and [CoffeeScript](http://coffeescript.org)-powered apps
 
+## What is Backstrap?
+
+Backstrap is the silly portmanteau I've given to my client-side web framework/toolkit. This is the product of months of learning and experimentation with the included technologies.
+
+A Backstrap application looks something like this:
+* [Backbone](http://backbonejs.org/) JavaScript MVC framework with [LayoutManager](http://layoutmanager.org/) plugin
+* Follows [Backbone Boilerplate](https://github.com/backbone-boilerplate/backbone-boilerplate) best practices
+* [Bootstrap](http://getbootstrap.com/) front-end CSS+JS framework
+* Written primarily in [CoffeeScript](http://coffeescript.org)
+* All wired up for [RequireJS](http://requirejs.org/) optimization
+* Using [Grunt](http://gruntjs.com/) task runner to develop, build, and test
+* Optionally deployed on [Parse](http://parse.com) backend-as-a-service
 
 ## Getting Started
 
-### What is Yeoman?
-
-Trick question. It's not a thing. It's this guy:
-
-![](http://i.imgur.com/JHaAlBJ.png)
-
-Basically, he wears a top hat, lives in your computer, and waits for you to tell him what kind of application you wish to create.
-
-Not every new computer comes with a Yeoman pre-installed. He lives in the [npm](https://npmjs.org) package repository. You only have to ask for him once, then he packs up and moves into your hard drive. *Make sure you clean up, he likes new and shiny things.*
-
-```
-$ npm install -g yo
-```
-
-### Yeoman Generators
-
-Yeoman travels light. He didn't pack any generators when he moved in. You can think of a generator like a plug-in. You get to choose what type of application you wish to create, such as a Backbone application or even a Chrome extension.
-
-To install generator-backstrap from npm, run:
-
-```
+```bash
+# Install generator-backstrap
 $ npm install -g generator-backstrap
-```
 
-Finally, initiate the generator:
-
-```
+# Run the generator
 $ yo backstrap
+
+# Maybe write some code?
+
+# Launch development server
+$ grunt server
+# Launch production server
+$ grunt server:dist
+
+# Build app for deployment
+$ grunt build
+
+# Run tests
+$ grunt test
 ```
 
-### Getting To Know Yeoman
-
-Yeoman has a heart of gold. He's a person with feelings and opinions, but he's very easy to work with. If you think he's too opinionated, he can be easily convinced.
-
-If you'd like to get to know Yeoman better and meet some of his friends, [Grunt](http://gruntjs.com) and [Bower](http://bower.io), check out the complete [Getting Started Guide](https://github.com/yeoman/yeoman/wiki/Getting-Started).
-
-
-## License
-
-[MIT License](http://en.wikipedia.org/wiki/MIT_License)
