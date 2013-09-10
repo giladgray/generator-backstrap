@@ -76,6 +76,8 @@ BackstrapGenerator.prototype.templates = function templates() {
   this.mkdir('app/templates');
   this.template('app/templates/_landing.hbs', 'app/templates/landing.hbs')
   this.template('app/templates/_navbar.hbs',  'app/templates/navbar.hbs')
+  this.mkdir('app/templates/layouts');
+  this.copy('app/templates/layouts/layout.hbs', 'app/templates/layouts/layout.hbs');
 }
 
 // create styles folder

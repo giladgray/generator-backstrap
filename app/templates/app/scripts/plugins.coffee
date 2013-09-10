@@ -1,4 +1,4 @@
-define ['jquery'], ($) ->
+define ['jquery', 'handlebars'], ($, Handlebars) ->
 
   # removes the given class from all elements (optionally within scope selector)
   # and applies it to this element. useful for singleton class, such as .active

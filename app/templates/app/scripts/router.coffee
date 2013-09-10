@@ -11,4 +11,4 @@ define ['app', 'views/navbar', 'views/landing'], (app, NavbarView, LandingView) 
 			app.layout.setView('#navbar', new NavbarView()).render()
 
 		index: ->
-			app.layout.setView('#main',  new LandingView()).render()
+			app.layout.setView('#content',  new LandingView()).render()
