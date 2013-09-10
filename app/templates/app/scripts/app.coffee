@@ -18,13 +18,13 @@ define ['underscore', 'jquery', 'backbone', 'layoutmanager', 'bootstrap', 'plugi
     # Helper for using layouts.
     useLayout: (name) ->
       # If already using this Layout, then don't re-inject into the DOM.
-      return @layout  if @layout and @layout.options.template is name
+      return @layout  if @layout and @layout.options.template is "layouts/#{name}"
       # If a layout already exists, remove it from the DOM.
       @layout.remove()  if @layout
       # Create a new Layout.
       layout = new Backbone.Layout
-        template: name
-        className: "layout menu-container " + name
+        template: "layouts/#{name}"
+        className: "layout #{name}"
         id: "layout"
       # Insert into the DOM.
       $("#main").empty().append layout.el
