@@ -53,16 +53,35 @@ BackstrapGenerator.prototype.app = function app() {
   this.template('app/_404.html', 'app/404.html')
 
   this.mkdir('app/images');
-  this.mkdir('app/styles');
-  this.mkdir('app/styles/fonts');
-  this.mkdir('app/templates');
 };
 
 // create scripts folder and basic backbone+requirejs app
 BackstrapGenerator.prototype.scripts = function scripts() {
   this.mkdir('app/scripts');
+  this.copy('app/scripts/app.coffee',     'app/scripts/app.coffee');
+  this.copy('app/scripts/config.coffee',  'app/scripts/config.coffee');
+  this.copy('app/scripts/main.coffee',    'app/scripts/main.coffee');
+  this.copy('app/scripts/plugins.coffee', 'app/scripts/plugins.coffee');
+  this.copy('app/scripts/router.coffee',  'app/scripts/router.coffee');
+
   this.mkdir('app/scripts/lib');
   this.mkdir('app/scripts/models');
-  this.mkdir('app/scripts/views');
 
+  this.mkdir('app/scripts/views');
+  this.copy('app/scripts/views/landing.coffee', 'app/scripts/views/landing.coffee')
+  this.copy('app/scripts/views/navbar.coffee',  'app/scripts/views/navbar.coffee')
 };
+
+BackstrapGenerator.prototype.templates = function templates() {
+  this.mkdir('app/templates');
+  this.template('app/templates/_landing.hbs', 'app/templates/landing.hbs')
+  this.template('app/templates/_navbar.hbs',  'app/templates/navbar.hbs')
+}
+
+// create styles folder
+BackstrapGenerator.prototype.styles = function styles() {
+  this.mkdir('app/styles');
+  this.copy('app/styles/main.sass', 'app/styles/main.sass')
+
+  this.mkdir('app/styles/fonts');
+}
