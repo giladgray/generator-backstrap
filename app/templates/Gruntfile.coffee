@@ -39,7 +39,12 @@ module.exports = (grunt) ->
       livereload:
         options:
           livereload: LIVERELOAD_PORT
-        files: ["<%= yeoman.app %>/*.html", "{.tmp,<%= yeoman.app %>}/styles/{,*/}*.css", "{.tmp,<%= yeoman.app %>}/scripts/{,*/}*.js", "<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp}"]
+        files: [
+            "<%= yeoman.app %>/*.html",
+            "{.tmp,<%= yeoman.app %>}/styles/{,*/}*.css",
+            "{.tmp,<%= yeoman.app %>}/scripts/{,*/}*.js",
+            "<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp}"
+        ]
 
     connect:
       options:
