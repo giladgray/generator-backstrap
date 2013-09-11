@@ -45,7 +45,7 @@ BackstrapGenerator.prototype.projectfiles = function projectfiles() {
   this.template('_bower.json', 'bower.json');
 };
 
-// create app folder and root-level files (index.html, etc)
+// create app folder and top-level files (index.html, etc)
 BackstrapGenerator.prototype.app = function app() {
   this.mkdir('app');
   this.copy('app/favicon.ico', 'app/favicon.ico')
@@ -60,11 +60,11 @@ BackstrapGenerator.prototype.app = function app() {
 BackstrapGenerator.prototype.scripts = function scripts() {
   // root-level files
   this.mkdir('app/scripts');
-  this.copy('app/scripts/app.coffee',     'app/scripts/app.coffee');
-  this.copy('app/scripts/config.coffee',  'app/scripts/config.coffee');
   this.copy('app/scripts/main.coffee',    'app/scripts/main.coffee');
   this.copy('app/scripts/plugins.coffee', 'app/scripts/plugins.coffee');
   this.copy('app/scripts/router.coffee',  'app/scripts/router.coffee');
+  this.template('app/scripts/_app.coffee',     'app/scripts/app.coffee');
+  this.template('app/scripts/_config.coffee',  'app/scripts/config.coffee');
 
   // backbone models directory
   this.mkdir('app/scripts/models');
