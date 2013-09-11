@@ -10,7 +10,6 @@ mountFolder = (connect, dir) -> connect.static require("path").resolve(dir)
 # 'test/spec/**/*.js'
 # templateFramework: 'lodash'
 module.exports = (grunt) ->
-
   # load all grunt tasks
   require("matchdep").filterDev("grunt-*").forEach grunt.loadNpmTasks
 
@@ -19,54 +18,42 @@ module.exports = (grunt) ->
     app: "app"
     dist: "dist"
 
-  # grunt.loadNpmTasks('grunt-contrib-handlebars');
-  # grunt.loadNpmTasks('grunt-bower-requirejs');
   grunt.initConfig
     yeoman: yeomanConfig
     watch:
       options:
         nospawn: true
         livereload: true
-
       coffee:
         files: ["<%= yeoman.app %>/scripts/{,*/}/*.coffee"]
         tasks: ["coffee:dist"]
-
       coffeeTest:
         files: ["test/spec/{,*/}*.coffee"]
         tasks: ["coffee:test"]
-
       compass:
         files: ["<%= yeoman.app %>/styles/{,*/}*.{scss,sass}"]
         tasks: ["compass"]
-
       handlebars:
         files: ["<%= yeoman.app %>/templates/**/*.hbs"]
         tasks: ["handlebars"]
-
       livereload:
         options:
           livereload: LIVERELOAD_PORT
-
         files: ["<%= yeoman.app %>/*.html", "{.tmp,<%= yeoman.app %>}/styles/{,*/}*.css", "{.tmp,<%= yeoman.app %>}/scripts/{,*/}*.js", "<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp}"]
 
     connect:
       options:
         port: 9000
-
         # change this to '0.0.0.0' to access the server from outside
         hostname: "localhost"
-
       livereload:
         options:
           middleware: (connect) ->
             [lrSnippet, mountFolder(connect, ".tmp"), mountFolder(connect, yeomanConfig.app)]
-
       test:
         options:
           middleware: (connect) ->
             [mountFolder(connect, ".tmp"), mountFolder(connect, "test"), mountFolder(connect, yeomanConfig.app)]
-
       dist:
         options:
           middleware: (connect) ->
@@ -83,7 +70,6 @@ module.exports = (grunt) ->
     jshint:
       options:
         jshintrc: ".jshintrc"
-
       all: ["Gruntfile.js", "<%= yeoman.app %>/scripts/{,*/}*.js", "!<%= yeoman.app %>/scripts/vendor/*", "test/spec/{,*/}*.js"]
 
     mocha:
@@ -95,7 +81,6 @@ module.exports = (grunt) ->
     coffee:
       dist:
         files: [
-
           # rather than compiling multiple files here you should
           # require them into your main .coffee file
           expand: true
@@ -104,7 +89,6 @@ module.exports = (grunt) ->
           dest: ".tmp/scripts"
           ext: ".js"
         ]
-
       test:
         files: [
           expand: true
@@ -122,7 +106,6 @@ module.exports = (grunt) ->
         fontsDir: "<%= yeoman.app %>/styles/fonts"
         importPath: "<%= yeoman.app %>/bower_components"
         relativeAssets: true
-
       dist: {}
       server:
         options:
@@ -132,40 +115,25 @@ module.exports = (grunt) ->
       compile:
         files:
           ".tmp/scripts/templates.js": ["<%= yeoman.app %>/templates/**/*.hbs"]
-
         options:
           amd: true
-          processName: (filename) ->
-
-            # funky name processing here
-            filename.replace(/^app\/templates\//, "").replace /\.hbs$/, ""
+          # extract template name from filename
+          processName: (filename) -> filename.match(/^app\/templates\/(\S+)\.\w+$/)?[1]
 
     requirejs:
       dist:
-
         # Options: https://github.com/jrburke/r.js/blob/master/build/example.build.js
         options:
-
           # `name` and `out` is set by grunt-usemin
           # because of coffee-script, we'll have requirejs compile from .tmp folder
           baseUrl: ".tmp/scripts"
           optimize: "none"
-
           # paths for our own files (not bower_components)
           paths:
             templates: "../../.tmp/scripts/templates"
-            bootstrap: "../../.tmp/scripts/lib/bootstrap"
-
-
-          # TODO: Figure out how to make sourcemaps work with grunt-usemin
-          # https://github.com/yeoman/grunt-usemin/issues/30
-          #generateSourceMaps: true,
-          # required to support SourceMaps
-          # http://requirejs.org/docs/errors.html#sourcemapcomments
           preserveLicenseComments: false
           useStrict: true
           wrap: true
-
 
     #uglify2: {} // https://github.com/mishoo/UglifyJS2
     useminPrepare:
@@ -196,16 +164,15 @@ module.exports = (grunt) ->
     htmlmin:
       dist:
         options: {}
-
-        #removeCommentsFromCDATA: true,
-        #                    // https://github.com/yeoman/grunt-usemin/issues/44
-        #                    //collapseWhitespace: true,
-        #                    collapseBooleanAttributes: true,
-        #                    removeAttributeQuotes: true,
-        #                    removeRedundantAttributes: true,
-        #                    useShortDoctype: true,
-        #                    removeEmptyAttributes: true,
-        #                    removeOptionalTags: true
+        # removeCommentsFromCDATA: true,
+        # # https://github.com/yeoman/grunt-usemin/issues/44
+        # # collapseWhitespace: true,
+        # collapseBooleanAttributes: true,
+        # removeAttributeQuotes: true,
+        # removeRedundantAttributes: true,
+        # useShortDoctype: true,
+        # removeEmptyAttributes: true,
+        # removeOptionalTags: true
         files: [
           expand: true
           cwd: "<%= yeoman.app %>"
@@ -222,8 +189,6 @@ module.exports = (grunt) ->
           dest: "<%= yeoman.dist %>"
           src: ["*.{ico,txt}", ".htaccess", "images/{,*/}*.{webp,gif}"]
         ]
-
-
       # copy scripts/lib folder to .tmp for requirejs
       lib:
         files: [
@@ -241,7 +206,6 @@ module.exports = (grunt) ->
     jst:
       options:
         amd: true
-
       compile:
         files:
           ".tmp/scripts/templates.js": ["<%= yeoman.app %>/scripts/templates/*.ejs"]
@@ -249,8 +213,12 @@ module.exports = (grunt) ->
     rev:
       dist:
         files:
-          src: ["<%= yeoman.dist %>/scripts/{,*/}*.js", "<%= yeoman.dist %>/styles/{,*/}*.css", "<%= yeoman.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp}", "<%= yeoman.dist %>/styles/fonts/*"]
-
+          src: [
+            "<%= yeoman.dist %>/scripts/{,*/}*.js",
+            "<%= yeoman.dist %>/styles/{,*/}*.css",
+            "<%= yeoman.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp}",
+            "<%= yeoman.dist %>/styles/fonts/*"
+          ]
 
     # symlink bower_components folder into .tmp for requirejs
     symlink:
@@ -265,8 +233,49 @@ module.exports = (grunt) ->
 
   grunt.registerTask "server", (target) ->
     return grunt.task.run(["build", "open", "connect:dist:keepalive"])  if target is "dist"
-    grunt.task.run ["clean:server", "coffee:dist", "createDefaultTemplate", "handlebars", "compass:server", "connect:livereload", "open", "watch"]
+    grunt.task.run [
+      "clean:server",
+      "coffee:dist",
+      "createDefaultTemplate",
+      "handlebars",
+      "compass:server",
+      "connect:livereload",
+      "open",
+      "watch"
+    ]
 
-  grunt.registerTask "test", ["clean:server", "coffee", "createDefaultTemplate", "handlebars", "compass", "connect:test", "mocha"]
-  grunt.registerTask "build", ["clean:dist", "coffee", "createDefaultTemplate", "handlebars", "compass:dist", "copy:lib", "symlink", "useminPrepare", "requirejs", "imagemin", "htmlmin", "concat", "cssmin", "uglify", "copy", "rev", "usemin"]
-  grunt.registerTask "default", ["jshint", "test", "build"]
+  grunt.registerTask "test", [
+    "clean:server",
+    "coffee",
+    "createDefaultTemplate",
+    "handlebars",
+    "compass",
+    "connect:test",
+    "mocha"
+  ]
+
+  grunt.registerTask "build", [
+    "clean:dist",
+    "coffee",
+    "createDefaultTemplate",
+    "handlebars",
+    "compass:dist",
+    "copy:lib",
+    "symlink",
+    "useminPrepare",
+    "requirejs",
+    "imagemin",
+    "htmlmin",
+    "concat",
+    "cssmin",
+    "uglify",
+    "copy",
+    "rev",
+    "usemin"
+  ]
+
+  grunt.registerTask "default", [
+    "jshint",
+    "test",
+    "build"
+  ]
