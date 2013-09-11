@@ -57,6 +57,7 @@ BackstrapGenerator.prototype.app = function app() {
 
 // create scripts folder and basic backbone+requirejs app
 BackstrapGenerator.prototype.scripts = function scripts() {
+  // root-level files
   this.mkdir('app/scripts');
   this.copy('app/scripts/app.coffee',     'app/scripts/app.coffee');
   this.copy('app/scripts/config.coffee',  'app/scripts/config.coffee');
@@ -64,8 +65,10 @@ BackstrapGenerator.prototype.scripts = function scripts() {
   this.copy('app/scripts/plugins.coffee', 'app/scripts/plugins.coffee');
   this.copy('app/scripts/router.coffee',  'app/scripts/router.coffee');
 
+  // backbone models directory
   this.mkdir('app/scripts/models');
 
+  // backbone views directory
   this.mkdir('app/scripts/views');
   this.copy('app/scripts/views/landing.coffee', 'app/scripts/views/landing.coffee')
   this.copy('app/scripts/views/navbar.coffee',  'app/scripts/views/navbar.coffee')

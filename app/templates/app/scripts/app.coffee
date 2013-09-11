@@ -2,15 +2,11 @@
 define ['underscore', 'jquery', 'backbone', 'layoutmanager', 'plugins'], (_, $, Backbone) ->
   "use strict"
 
-  # Localize or create a new JavaScript Template object.
-  JST = window.JST = window.JST or {}
-
   # Provide a global location to place configuration settings and module creation.
   app = root: "/"
 
   # Mix Backbone.Events, modules, and layout management into the app object.
   _.extend app, Backbone.Events,
-
     # Create a custom object with a nested Views object.
     module: (additionalProps) ->
       _.extend Views: {}, additionalProps
@@ -30,7 +26,7 @@ define ['underscore', 'jquery', 'backbone', 'layoutmanager', 'plugins'], (_, $, 
       $("#main").empty().append layout.el
       # Render the layout.
       layout.render()
-      # Cache the refererence.
+      # Cache the reference.
       @layout = layout
       # Return the reference, for chainability.
       layout

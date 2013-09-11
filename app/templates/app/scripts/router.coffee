@@ -7,6 +7,7 @@ define ['app', 'views/navbar', 'views/landing'], (app, NavbarView, LandingView) 
 			'': 'index'
 
 		initialize: ->
+            # set the application layout and attach views that are always present
 			app.useLayout 'layout'
 			app.layout.setView('#navbar', new NavbarView()).render()
 
