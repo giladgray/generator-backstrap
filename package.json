@@ -1,6 +1,6 @@
 {
   "name": "generator-backstrap",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "A Yeoman generator for kickass Backbone, Bootstrap, and CoffeeScript-powered apps",
   "keywords": [
     "yeoman-generator",
@@ -15,7 +15,7 @@
   "bugs": "https://github.com/giladgray/generator-backstrap/issues",
   "author": {
     "name": "Gilad Gray",
-    "email": "",
+    "email": "giladgray@gmail.com",
     "url": "https://github.com/giladgray"
   },
   "main": "app/index.coffee",
