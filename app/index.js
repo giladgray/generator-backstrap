@@ -28,6 +28,7 @@ BackstrapGenerator.prototype.askFor = function askFor() {
 
   this.prompt(prompts, function (props) {
     this.appName = props.appName;
+    this.useParse = props.useParse || false;
 
     cb();
   }.bind(this));

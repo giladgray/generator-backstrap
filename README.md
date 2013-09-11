@@ -9,7 +9,8 @@ Backstrap is the silly portmanteau I've given to my client-side web framework/to
 A Backstrap application looks something like this:
 * [Backbone](http://backbonejs.org/) JavaScript MVC framework with [LayoutManager](http://layoutmanager.org/) plugin
 * Follows [Backbone Boilerplate](https://github.com/backbone-boilerplate/backbone-boilerplate) best practices
-* [Bootstrap](http://getbootstrap.com/) front-end CSS+JS framework
+* [Bootstrap 3.0](http://getbootstrap.com/) front-end CSS+JS framework
+* [Handlebars](http://handlebarsjs.com/) template engine
 * Written primarily in [CoffeeScript](http://coffeescript.org)
 * All wired up for [RequireJS](http://requirejs.org/) optimization
 * Using [Grunt](http://gruntjs.com/) task runner to develop, build, and test

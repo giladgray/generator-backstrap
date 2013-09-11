@@ -15,8 +15,9 @@ define ["app", "router", "templates"], (app, Router, Templates) ->
   # navigation from this instance.
   app.router = new Router()
 
-  # Trigger the initial route and enable HTML5 History API support, set the
-  # root folder to '/' by default.  Change in app.js.
+  # Trigger the initial route but disable HTML5 History API support, set the
+  # root folder to '/' by default. Change in app.js.
+  # pushState does not play nice with Yeoman's connect server.
   Backbone.history.start
     # pushState: true
     root: app.root
