@@ -23,12 +23,18 @@ BackstrapGenerator.prototype.askFor = function askFor() {
 
   var prompts = [{
     name: 'appName',
-    message: 'What is the name of your app?'
+    message: 'What shall we call this bad boy?'
+  }, {
+    type: 'confirm',
+    name: 'useParse',
+    message: 'Use Parse JS SDK instead of Backbone?',
+    default: false
   }];
 
   this.prompt(prompts, function (props) {
     this.appName = props.appName;
     this.useParse = props.useParse || false;
+    this.framework = this.useParse ? 'parse' : 'backbone'
 
     cb();
   }.bind(this));

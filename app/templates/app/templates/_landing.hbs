@@ -4,11 +4,7 @@
     <br>
     <div class="well text-center">
         <ul class="list-inline">
-            <% if (useParse) { %>
-            <li><a href="http://parse.com">Parse</a></li>
-            <% } else { %>
-            <li><a href="http://backbonejs.org">Backbone</a></li>
-            <% } %>
+            <li><% if (useParse) { %><a href="http://parse.com">Parse</a><% } else { %><a href="http://backbonejs.org">Backbone</a><% } %></li>
             <li><a href="http://layoutmanager.org/">LayoutManager</a></li>
             <li><a href="https://github.com/backbone-boilerplate/backbone-boilerplate">Boilerplate</a></li>
             <li><a href="http://getbootstrap.com/">Bootstrap 3.0</a></li>
