@@ -66,11 +66,10 @@ BackstrapGenerator.prototype.app = function app() {
 BackstrapGenerator.prototype.scripts = function scripts() {
   // root-level files
   this.mkdir('app/scripts');
-  this.copy('app/scripts/main.coffee',    'app/scripts/main.coffee');
-  this.copy('app/scripts/plugins.coffee', 'app/scripts/plugins.coffee');
-  this.copy('app/scripts/router.coffee',  'app/scripts/router.coffee');
-  this.template('app/scripts/_app.coffee',     'app/scripts/app.coffee');
-  this.template('app/scripts/_config.coffee',  'app/scripts/config.coffee');
+  this.copy('app/scripts/index.coffee',    'app/scripts/index.coffee');
+  this.copy('app/scripts/plugins.coffee',  'app/scripts/plugins.coffee');
+  this.copy('app/scripts/router.coffee',   'app/scripts/router.coffee');
+  this.template('app/scripts/_app.coffee', 'app/scripts/app.coffee');
 
   // backbone models directory
   this.mkdir('app/scripts/models');

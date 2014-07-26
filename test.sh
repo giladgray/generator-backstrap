@@ -5,4 +5,4 @@ cd temp
 echo "running backstrap..."
 yo backstrap
 echo "launching server..."
-grunt server:dist
+grunt

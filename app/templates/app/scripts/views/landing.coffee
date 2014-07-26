@@ -1,4 +1,5 @@
-define ['backbone'], (Backbone) ->
-	class LandingView extends Backbone.View
-		template: 'landing'
-		className: 'container'
+class LandingView extends Backbone.Layout
+	template: 'landing'
+	className: 'container'
+
+module.exports = LandingView

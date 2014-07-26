@@ -1,4 +1,5 @@
-define ['backbone'], (Backbone) ->
-	class NavbarView extends Backbone.View
-		template: 'navbar'
-		className: 'container'
+class NavbarView extends Backbone.Layout
+	template: 'navbar'
+	className: 'container'
+
+module.exports = NavbarView

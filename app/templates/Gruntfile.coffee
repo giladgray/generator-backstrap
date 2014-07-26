@@ -1,286 +1,178 @@
 "use strict"
-LIVERELOAD_PORT = 35729
-lrSnippet = require("connect-livereload")(port: LIVERELOAD_PORT)
-mountFolder = (connect, dir) -> connect.static require("path").resolve(dir)
 
-### Globbing ###
+_ = require 'lodash'
+
+###
+Installation commands:
+npm install --save-dev grunt browserify coffeeify load-grunt-tasks time-grunt
+npm install --save-dev grunt-browserify grunt-contrib-clean grunt-contrib-concat grunt-contrib-connect grunt-contrib-copy grunt-contrib-cssmin grunt-contrib-handlebars grunt-contrib-imagemin grunt-contrib-sass grunt-contrib-uglify grunt-contrib-watch grunt-gh-pages grunt-template grunt-usemin
+###
+
+# # Globbing
 # for performance reasons we're only matching one level down:
 # 'test/spec/{,*/}*.js'
-# use this if you want to match all subfolders:
+# use this if you want to recursively match all subfolders:
 # 'test/spec/**/*.js'
-# templateFramework: 'lodash'
-module.exports = (grunt) ->
-  # load all grunt tasks
-  require("matchdep").filterDev("grunt-*").forEach grunt.loadNpmTasks
+module.exports = (grunt, options) ->
+  pkg = grunt.file.readJSON('package.json')
 
-  # configurable paths
-  yeomanConfig =
-    app: "app"
-    dist: "dist"
+  # load all grunt tasks and time execution
+  require('load-grunt-tasks') grunt
+  require('time-grunt') grunt
 
+  ###### PLUGIN CONFIGURATIONS ######
   grunt.initConfig
-    yeoman: yeomanConfig
+    options: options
+
+    pkg: pkg
+
+    # grunt-contrib-watch
     watch:
-      options:
-        nospawn: true
-        livereload: true
-      coffee:
-        files: ["<%= yeoman.app %>/scripts/{,*/}/*.coffee"]
-        tasks: ["coffee:dist"]
-      coffeeTest:
-        files: ["test/spec/{,*/}*.coffee"]
-        tasks: ["coffee:test"]
-      compass:
-        files: ["<%= yeoman.app %>/styles/{,*/}*.{scss,sass}"]
-        tasks: ["compass"]
+      browserify:
+        files: 'app/scripts/{,*/}*.coffee'
+        tasks: ['browserify:dev']
       handlebars:
-        files: ["<%= yeoman.app %>/templates/**/*.hbs"]
-        tasks: ["handlebars"]
+        files: ['app/templates/{,*/}*.hbs']
+        tasks: ['handlebars']
+      sass:
+        files: ['app/styles/{,*/}*.{scss,sass}']
+        tasks: ['sass'] #, 'autoprefixer']
       livereload:
         options:
-          livereload: LIVERELOAD_PORT
-        files: [
-            "<%= yeoman.app %>/*.html",
-            "{.tmp,<%= yeoman.app %>}/styles/{,*/}*.css",
-            "{.tmp,<%= yeoman.app %>}/scripts/{,*/}*.js",
-            "<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp}"
-        ]
-
-    connect:
-      options:
-        port: 9000
-        # change this to '0.0.0.0' to access the server from outside
-        hostname: "localhost"
-      livereload:
-        options:
-          middleware: (connect) ->
-            [lrSnippet, mountFolder(connect, ".tmp"), mountFolder(connect, yeomanConfig.app)]
-      test:
-        options:
-          middleware: (connect) ->
-            [mountFolder(connect, ".tmp"), mountFolder(connect, "test"), mountFolder(connect, yeomanConfig.app)]
-      dist:
-        options:
-          middleware: (connect) ->
-            [mountFolder(connect, yeomanConfig.dist)]
-
-    open:
-      server:
-        path: "http://localhost:<%= connect.options.port %>"
+          livereload: '<%= connect.options.livereload %>'
+        files: ['dist/**/*.{js,css,html,json,png}']
 
     clean:
-      dist: [".tmp", "<%= yeoman.dist %>/*"]
-      server: ".tmp"
+      dist: ['dist']
 
-    jshint:
+    # grunt-browserify
+    browserify:
       options:
-        jshintrc: ".jshintrc"
-      all: ["Gruntfile.js", "<%= yeoman.app %>/scripts/{,*/}*.js", "!<%= yeoman.app %>/scripts/vendor/*", "test/spec/{,*/}*.js"]
-
-    mocha:
-      all:
+        transform: ['coffeeify']
+      dev:
         options:
-          run: true
-          urls: ["http://localhost:<%= connect.options.port %>/index.html"]
-
-    coffee:
+          bundleOptions:
+            debug: true # coffee sourcemaps!!!
+        files:
+          'dist/scripts/index.js': ['app/scripts/index.coffee']
       dist:
-        files: [
-          # rather than compiling multiple files here you should
-          # require them into your main .coffee file
-          expand: true
-          cwd: "<%= yeoman.app %>/scripts"
-          src: "{,*/}*.coffee"
-          dest: ".tmp/scripts"
-          ext: ".js"
-        ]
-      test:
-        files: [
-          expand: true
-          cwd: ".tmp/spec"
-          src: "*.coffee"
-          dest: "test/spec"
-        ]
+        files:
+          'dist/scripts/index.js': ['app/scripts/index.coffee']
 
-    compass:
-      options:
-        sassDir: "<%= yeoman.app %>/styles"
-        cssDir: ".tmp/styles"
-        imagesDir: "<%= yeoman.app %>/images"
-        javascriptsDir: "<%= yeoman.app %>/scripts"
-        fontsDir: "<%= yeoman.app %>/styles/fonts"
-        importPath: "<%= yeoman.app %>/bower_components"
-        relativeAssets: true
-      dist: {}
-      server:
+    # grunt-contrib-sass
+    sass:
+      dist:
         options:
-          debugInfo: true
+          style: 'compact'
+        files:
+          'dist/styles/index.css': ['app/styles/**/*.{scss,sass}']
 
+    # grunt-contrib-handlebars
     handlebars:
-      compile:
-        files:
-          ".tmp/scripts/templates.js": ["<%= yeoman.app %>/templates/**/*.hbs"]
-        options:
-          amd: true
-          # extract template name from filename
-          processName: (filename) -> filename.match(/^app\/templates\/(\S+)\.\w+$/)?[1]
-
-    requirejs:
-      dist:
-        # Options: https://github.com/jrburke/r.js/blob/master/build/example.build.js
-        options:
-          # `name` and `out` is set by grunt-usemin
-          # because of coffee-script, we'll have requirejs compile from .tmp folder
-          baseUrl: ".tmp/scripts"
-          optimize: "none"
-          # paths for our own files (not bower_components)
-          paths:
-            templates: "../../.tmp/scripts/templates"
-          preserveLicenseComments: false
-          useStrict: true
-          wrap: true
-
-    #uglify2: {} // https://github.com/mishoo/UglifyJS2
-    useminPrepare:
-      html: "<%= yeoman.app %>/index.html"
-      options:
-        dest: "<%= yeoman.dist %>"
-
-    usemin:
-      html: ["<%= yeoman.dist %>/{,*/}*.html"]
-      css: ["<%= yeoman.dist %>/styles/{,*/}*.css"]
-      options:
-        dirs: ["<%= yeoman.dist %>"]
-
-    imagemin:
-      dist:
-        files: [
-          expand: true
-          cwd: "<%= yeoman.app %>/images"
-          src: "{,*/}*.{png,jpg,jpeg}"
-          dest: "<%= yeoman.dist %>/images"
-        ]
-
-    cssmin:
       dist:
         files:
-          "<%= yeoman.dist %>/styles/main.css": [".tmp/styles/{,*/}*.css", "<%= yeoman.app %>/styles/{,*/}*.css"]
+          'dist/scripts/templates.js': ['app/templates/**/*.hbs']
+        options:
+          namespace: 'Templates'
+          processName: (filename) ->
+            filename.match(/templates\/(.+)\.h[bj]s$/)[1]
 
-    htmlmin:
-      dist:
-        options: {}
-        # removeCommentsFromCDATA: true,
-        # # https://github.com/yeoman/grunt-usemin/issues/44
-        # # collapseWhitespace: true,
-        # collapseBooleanAttributes: true,
-        # removeAttributeQuotes: true,
-        # removeRedundantAttributes: true,
-        # useShortDoctype: true,
-        # removeEmptyAttributes: true,
-        # removeOptionalTags: true
-        files: [
-          expand: true
-          cwd: "<%= yeoman.app %>"
-          src: "*.html"
-          dest: "<%= yeoman.dist %>"
-        ]
-
+    # grunt-contrib-copy
     copy:
       dist:
         files: [
-          expand: true
-          dot: true
-          cwd: "<%= yeoman.app %>"
-          dest: "<%= yeoman.dist %>"
-          src: ["*.{ico,txt}", ".htaccess", "images/{,*/}*.{webp,gif}"]
-        ]
-      # copy scripts/lib folder to .tmp for requirejs
-      lib:
-        files: [
-          expand: true
-          dot: true
-          cwd: "<%= yeoman.app %>"
-          dest: ".tmp"
-          src: ["scripts/lib/*.*"]
+          {expand: true, cwd: 'app', src: ['styles/fonts/**'], dest: 'dist'},
         ]
 
-    bower:
-      all:
-        rjsConfig: ".tmp/scripts/config.js"
-
-    jst:
-      options:
-        amd: true
-      compile:
-        files:
-          ".tmp/scripts/templates.js": ["<%= yeoman.app %>/scripts/templates/*.ejs"]
-
-    rev:
+    # grunt-contrib-imagemin
+    imagemin:
       dist:
-        files:
-          src: [
-            "<%= yeoman.dist %>/scripts/{,*/}*.js",
-            "<%= yeoman.dist %>/styles/{,*/}*.css",
-            "<%= yeoman.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp}",
-            "<%= yeoman.dist %>/styles/fonts/*"
-          ]
+        expand: true
+        cwd: 'app'
+        src: ['images/*.png']
+        dest: 'dist'
 
-    # symlink bower_components folder into .tmp for requirejs
-    symlink:
-      js:
-        dest: ".tmp/bower_components"
-        relativeSrc: "../<%= yeoman.app %>/bower_components"
+    # grunt-usemin
+    useminPrepare:
+      html: 'app/index.html'
+
+    # grunt-usemin
+    usemin:
+      options:
+        dirs: ['dist']
+      html: ['dist/{,*/}*.html']
+
+    # grunt-contrib-connect
+    connect:
+      options:
+        port: 9000
+        livereload: 35729
+        # Change this to '0.0.0.0' to access the server from outside
+        hostname: 'localhost'
+      livereload:
         options:
-          type: "dir"
+          open: true
+          base: ['app', 'dist']
+      test:
+        options:
+          port: 9001
+          base: ['app', 'dist', 'test']
+      dist:
+        options:
+          open: true
+          base: 'dist'
+          livereload: false
+      github:
+        options:
+          open: 'https://giladgray.github.io/<%= pkg.name %>'
 
-  grunt.registerTask "createDefaultTemplate", ->
-    grunt.file.write ".tmp/scripts/templates.js", "this.JST = this.JST || {};"
+    # grunt-gh-pages
+    'gh-pages':
+      options:
+        base: 'dist'
+      src: ['**']
 
-  grunt.registerTask "server", (target) ->
-    return grunt.task.run(["build", "open", "connect:dist:keepalive"])  if target is "dist"
+  ######### TASK DEFINITIONS #########
+
+  # compile assets for development
+  grunt.registerTask 'build', 'compile assets for development', (target = 'dist') ->
     grunt.task.run [
-      "clean:server",
-      "coffee:dist",
-      "createDefaultTemplate",
-      "handlebars",
-      "compass:server",
-      "connect:livereload",
-      "open",
-      "watch"
+      'clean'
+      'sass'
+      'handlebars'
+      "browserify:#{target}"
+      'copy'
     ]
 
-  grunt.registerTask "test", [
-    "clean:server",
-    "coffee",
-    "createDefaultTemplate",
-    "handlebars",
-    "compass",
-    "connect:test",
-    "mocha"
+  # build, dev server, watch
+  grunt.registerTask 'dev', [
+    'build:dev'
+    'connect:livereload'
+    'watch'
   ]
 
-  grunt.registerTask "build", [
-    "clean:dist",
-    "coffee",
-    "createDefaultTemplate",
-    "handlebars",
-    "compass:dist",
-    "copy:lib",
-    "symlink",
-    "useminPrepare",
-    "requirejs",
-    "imagemin",
-    "htmlmin",
-    "concat",
-    "cssmin",
-    "uglify",
-    "copy",
-    "rev",
-    "usemin"
+  # compress and obfuscate files for production
+  grunt.registerTask 'minify', [
+    'imagemin'
+    'useminPrepare'
+    'concat'
+    'uglify'
+    'cssmin'
+    'usemin'
   ]
 
-  grunt.registerTask "default", [
-    "jshint",
-    "test",
-    "build"
+  # build, minify, copy production assets
+  grunt.registerTask 'dist', [
+    'build:dist',
+    'copy',
+    'minify',
+    'connect:dist:keepalive'
   ]
+
+  # publish dist/ directory to github and open page
+  grunt.registerTask 'deploy', [
+    'gh-pages'
+    'connect:github'
+  ]
+
+  grunt.registerTask 'default', ['dev']
