@@ -3,36 +3,40 @@
 
 var path    = require('path');
 var helpers = require('yeoman-generator').test;
-
+var assert  = require('yeoman-generator').assert;
 
 describe('backstrap generator', function () {
-  beforeEach(function (done) {
-    helpers.testDirectory(path.join(__dirname, 'temp'), function (err) {
-      if (err) {
-        return done(err);
-      }
-
-      this.app = helpers.createGenerator('backstrap:app', [
-        '../../app'
-      ]);
-      done();
-    }.bind(this));
+  before(function (done) {
+    helpers.run(path.join(__dirname, '../app'))
+      .inDir(path.join(__dirname, './temp'))
+      .withOptions({ skipInstall: true})
+      .withPrompt({ appName: 'testing', useParse: false })
+      .on('end', done)
   });
 
-  it('creates expected files', function (done) {
-    var expected = [
-      // add files you expect to exist here.
-      '.jshintrc',
-      '.editorconfig'
-    ];
+  it('creates expected files', function () {
+    assert.file([
+      '.bowerrc',
+      '.editorconfig',
+      '.gitignore',
+      'bower.json',
+      'package.json',
+      'Gruntfile.coffee',
+      'testing.sublime-project',
 
-    helpers.mockPrompt(this.app, {
-      'someOption': true
-    });
-    this.app.options['skip-install'] = true;
-    this.app.run({}, function () {
-      helpers.assertFiles(expected);
-      done();
-    });
+      'app/index.html',
+
+      'app/scripts/app.coffee',
+      'app/scripts/index.coffee',
+      'app/scripts/router.coffee',
+      'app/scripts/views/landing.coffee',
+      'app/scripts/views/navbar.coffee',
+
+      'app/styles/main.sass',
+
+      'app/templates/landing.hbs',
+      'app/templates/navbar.hbs',
+      'app/templates/layouts/layout.hbs'
+    ])
   });
 });

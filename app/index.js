@@ -41,6 +41,6 @@ module.exports = yeoman.generators.Base.extend({
     this.mkdir('app/styles/fonts')
   },
   install: function() {
-    this.installDependencies()
+    this.installDependencies({ skipInstall: this.options['skip-install'] });
   }
 });
