@@ -1,5 +1,3 @@
-"use strict"
-
 <% if (useParse) { %>
 # Initialize Parse SDK with your application keys, available from Settings on Parse.com
 Parse.initialize('PARSE_APPLICATION_ID', 'PARSE_JAVASCRIPT_KEY')
@@ -10,7 +8,6 @@ testObject = new TestObject();
 testObject.save { foo: "bar" },
   success: (object) -> alert("yay! it worked")
 <% } %>
-
 # Provide a global location to place configuration settings and module creation.
 app = root: "/"
 

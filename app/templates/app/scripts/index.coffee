@@ -1,6 +1,4 @@
-"use strict"
-
-app = require './app.coffee'
+app    = require './app.coffee'
 Router = require './router.coffee'
 require './plugins.coffee'
 

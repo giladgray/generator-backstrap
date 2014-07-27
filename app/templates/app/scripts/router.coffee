@@ -1,5 +1,3 @@
-"use strict"
-
 NavbarView  = require './views/navbar.coffee'
 LandingView = require './views/landing.coffee'
 
