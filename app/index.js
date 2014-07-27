@@ -34,49 +34,13 @@ module.exports = yeoman.generators.Base.extend({
     this.template('_package.json', 'package.json');
     this.template('_bower.json', 'bower.json');
   },
-  writing: {
-    app: function() {
-      this.mkdir('app');
-      this.copy('app/favicon.ico', 'app/favicon.ico')
-      this.copy('app/robots.txt', 'app/robots.txt')
-      this.template('app/_index.html', 'app/index.html')
-      this.template('app/_404.html', 'app/404.html')
+  writing: function() {
+    this.directory('app', 'app')
 
-      this.mkdir('app/images');
-    },
-    scripts: function() {
-      // root-level files
-      this.mkdir('app/scripts');
-      this.copy('app/scripts/index.coffee',    'app/scripts/index.coffee');
-      this.copy('app/scripts/plugins.coffee',  'app/scripts/plugins.coffee');
-      this.copy('app/scripts/router.coffee',   'app/scripts/router.coffee');
-      this.template('app/scripts/_app.coffee', 'app/scripts/app.coffee');
-
-      // backbone models directory
-      this.mkdir('app/scripts/models');
-
-      // backbone views directory
-      this.mkdir('app/scripts/views');
-      this.copy('app/scripts/views/landing.coffee', 'app/scripts/views/landing.coffee')
-      this.copy('app/scripts/views/navbar.coffee',  'app/scripts/views/navbar.coffee')
-    },
-    templates: function() {
-      this.mkdir('app/templates');
-      this.template('app/templates/_landing.hbs', 'app/templates/landing.hbs')
-      this.template('app/templates/_navbar.hbs',  'app/templates/navbar.hbs')
-
-      this.mkdir('app/templates/layouts');
-      this.copy('app/templates/layouts/layout.hbs', 'app/templates/layouts/layout.hbs');
-    },
-    styles: function() {
-      this.mkdir('app/styles');
-      this.copy('app/styles/main.sass', 'app/styles/main.sass')
-
-      this.mkdir('app/styles/fonts');
-    }
+    this.mkdir('app/scripts/models')
+    this.mkdir('app/styles/fonts')
   },
   install: function() {
     this.installDependencies()
-    console.log(this.appname, this.framework)
   }
 });
